@@ -13,8 +13,7 @@ use yii\test\InitDbFixture;
  * and functional tests.  All fixtures will be loaded before the suite is started and unloaded after it
  * completes.
  */
-class FixtureHelper extends Module
-{
+class FixtureHelper extends Module {
 
     /**
      * Redeclare visibility because codeception includes all public methods that do not start with "_"
@@ -35,24 +34,21 @@ class FixtureHelper extends Module
      * to use in acceptance and functional tests.
      * @param array $settings
      */
-    public function _beforeSuite($settings = [])
-    {
+    public function _beforeSuite($settings = []) {
         $this->loadFixtures();
     }
 
     /**
      * Method is called after all suite tests run
      */
-    public function _afterSuite()
-    {
+    public function _afterSuite() {
         $this->unloadFixtures();
     }
 
     /**
      * @inheritdoc
      */
-    public function globalFixtures()
-    {
+    public function globalFixtures() {
         return [
             InitDbFixture::className(),
         ];
@@ -61,8 +57,7 @@ class FixtureHelper extends Module
     /**
      * @inheritdoc
      */
-    public function fixtures()
-    {
+    public function fixtures() {
         return [
             'user' => [
                 'class' => UserFixture::className(),
@@ -70,4 +65,5 @@ class FixtureHelper extends Module
             ],
         ];
     }
+
 }

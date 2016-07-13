@@ -7,13 +7,11 @@ use tests\codeception\common\fixtures\UserFixture;
 use Codeception\Specify;
 use frontend\models\SignupForm;
 
-class SignupFormTest extends DbTestCase
-{
+class SignupFormTest extends DbTestCase {
 
     use Specify;
 
-    public function testCorrectSignup()
-    {
+    public function testCorrectSignup() {
         $model = new SignupForm([
             'username' => 'some_username',
             'email' => 'some_email@example.com',
@@ -29,8 +27,7 @@ class SignupFormTest extends DbTestCase
         expect('password should be correct', $user->validatePassword('some_password'))->true();
     }
 
-    public function testNotCorrectSignup()
-    {
+    public function testNotCorrectSignup() {
         $model = new SignupForm([
             'username' => 'troy.becker',
             'email' => 'nicolas.dianna@hotmail.com',
@@ -40,8 +37,7 @@ class SignupFormTest extends DbTestCase
         expect('username and email are in use, user should not be created', $model->signup())->null();
     }
 
-    public function fixtures()
-    {
+    public function fixtures() {
         return [
             'user' => [
                 'class' => UserFixture::className(),
@@ -49,4 +45,5 @@ class SignupFormTest extends DbTestCase
             ],
         ];
     }
+
 }

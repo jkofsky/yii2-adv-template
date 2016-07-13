@@ -23,25 +23,19 @@ use yii\helpers\Security;
  * @property integer $status_id
  * @property integer $user_type_id
  * @property integer $created_at
- * @property integer $created_by
  * @property integer $updated_at
- * @property integer $updated_by
  * @property string $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface {
 
-    const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 1;
 
-    /**
-     * @inheritdoc
-     */
     public static function tableName() {
-        return '{{%user}}';
+        return 'user';
     }
 
     /**
-     * @inheritdoc
+     * behaviors
      */
     public function behaviors() {
         return [
@@ -51,23 +45,26 @@ class User extends ActiveRecord implements IdentityInterface {
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
-                'value' => null, // defaults to time(),
+                'value' => new Expression('NOW()'),
             ],
         ];
     }
 
     /**
-     * @inheritdoc
+     * validation rules
      */
     public function rules() {
         return [
+
             ['status_id', 'default', 'value' => self::STATUS_ACTIVE],
             ['role_id', 'default', 'value' => 1],
             ['user_type_id', 'default', 'value' => 1],
+
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
             ['username', 'unique'],
             ['username', 'string', 'min' => 2, 'max' => 255],
+
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
@@ -75,27 +72,16 @@ class User extends ActiveRecord implements IdentityInterface {
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
+    /* Your model attribute labels */
+
     public function attributeLabels() {
         return [
- 'id' => \Yii::t('app', 'ID'),
- 'username' =>  \Yii::t('app', 'User Name'),
- 'password_reset_token'=>  \Yii::t('app', 'Password Reset Token'),
- 'email'=>  \Yii::t('app', 'Email'),
- 'role_id' => \Yii::t('app', 'Role'),
- 'status_id'=>  \Yii::t('app', 'Status'),
- 'user_type_id'=>  \Yii::t('app', 'User Type'),
- 'created_at' =>  \Yii::t('app', 'Created'),
-            'created_by'=>  \Yii::t('app', 'Created By'),
-'updated_at'=>  \Yii::t('app', 'Last Updated'),
-            'updated_by'=>  \Yii::t('app', 'Updated By'),
+                /* Your other attribute labels */
         ];
     }
 
     /**
-     * @inheritdoc
+     * @findIdentity
      */
     public static function findIdentity($id) {
         return static::findOne(['id' => $id, 'status_id' => self::STATUS_ACTIVE]);
@@ -110,8 +96,7 @@ class User extends ActiveRecord implements IdentityInterface {
 
     /**
      * Finds user by username
-     *
-     * @param string $username
+     * broken into 2 lines to avoid wordwrapping * @param string $username
      * @return static|null
      */
     public static function findByUsername($username) {
@@ -152,21 +137,21 @@ class User extends ActiveRecord implements IdentityInterface {
     }
 
     /**
-     * @inheritdoc
+     * @getId
      */
     public function getId() {
         return $this->getPrimaryKey();
     }
 
     /**
-     * @inheritdoc
+     * @getAuthKey
      */
     public function getAuthKey() {
         return $this->auth_key;
     }
 
     /**
-     * @inheritdoc
+     * @validateAuthKey
      */
     public function validateAuthKey($authKey) {
         return $this->getAuthKey() === $authKey;
@@ -200,6 +185,7 @@ class User extends ActiveRecord implements IdentityInterface {
 
     /**
      * Generates new password reset token
+     * broken into 2 lines to avoid wordwrapping
      */
     public function generatePasswordResetToken() {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();

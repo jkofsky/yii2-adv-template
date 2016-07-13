@@ -9,16 +9,14 @@ use frontend\models\SignupForm;
  * Represents signup page
  * @property \codeception_frontend\AcceptanceTester|\codeception_frontend\FunctionalTester $actor
  */
-class SignupPage extends BasePage
-{
+class SignupPage extends BasePage {
 
     public $route = 'site/signup';
 
     /**
      * @param array $signupData
      */
-    public function submit(array $signupData)
-    {
+    public function submit(array $signupData) {
         $signupForm = new SignupForm;
 
         foreach ($signupData as $field => $value) {
@@ -27,4 +25,5 @@ class SignupPage extends BasePage
         }
         $this->actor->click('signup-button');
     }
+
 }

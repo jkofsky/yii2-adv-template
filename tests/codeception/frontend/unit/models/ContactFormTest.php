@@ -6,27 +6,23 @@ use Yii;
 use tests\codeception\frontend\unit\TestCase;
 use frontend\models\ContactForm;
 
-class ContactFormTest extends TestCase
-{
+class ContactFormTest extends TestCase {
 
     use \Codeception\Specify;
 
-    protected function setUp()
-    {
+    protected function setUp() {
         parent::setUp();
         Yii::$app->mailer->fileTransportCallback = function ($mailer, $message) {
             return 'testing_message.eml';
         };
     }
 
-    protected function tearDown()
-    {
+    protected function tearDown() {
         unlink($this->getMessageFile());
         parent::tearDown();
     }
 
-    public function testContact()
-    {
+    public function testContact() {
         $model = new ContactForm();
 
         $model->attributes = [
@@ -52,8 +48,8 @@ class ContactFormTest extends TestCase
         });
     }
 
-    private function getMessageFile()
-    {
+    private function getMessageFile() {
         return Yii::getAlias(Yii::$app->mailer->fileTransportPath) . '/testing_message.eml';
     }
+
 }

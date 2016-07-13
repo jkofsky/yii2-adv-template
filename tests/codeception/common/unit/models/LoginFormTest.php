@@ -11,13 +11,11 @@ use tests\codeception\common\fixtures\UserFixture;
 /**
  * Login form test
  */
-class LoginFormTest extends DbTestCase
-{
+class LoginFormTest extends DbTestCase {
 
     use Specify;
 
-    public function setUp()
-    {
+    public function setUp() {
         parent::setUp();
 
         Yii::configure(Yii::$app, [
@@ -30,14 +28,12 @@ class LoginFormTest extends DbTestCase
         ]);
     }
 
-    protected function tearDown()
-    {
+    protected function tearDown() {
         Yii::$app->user->logout();
         parent::tearDown();
     }
 
-    public function testLoginNoUser()
-    {
+    public function testLoginNoUser() {
         $model = new LoginForm([
             'username' => 'not_existing_username',
             'password' => 'not_existing_password',
@@ -49,8 +45,7 @@ class LoginFormTest extends DbTestCase
         });
     }
 
-    public function testLoginWrongPassword()
-    {
+    public function testLoginWrongPassword() {
         $model = new LoginForm([
             'username' => 'bayer.hudson',
             'password' => 'wrong_password',
@@ -63,8 +58,7 @@ class LoginFormTest extends DbTestCase
         });
     }
 
-    public function testLoginCorrect()
-    {
+    public function testLoginCorrect() {
 
         $model = new LoginForm([
             'username' => 'bayer.hudson',
@@ -81,8 +75,7 @@ class LoginFormTest extends DbTestCase
     /**
      * @inheritdoc
      */
-    public function fixtures()
-    {
+    public function fixtures() {
         return [
             'user' => [
                 'class' => UserFixture::className(),
@@ -90,4 +83,5 @@ class LoginFormTest extends DbTestCase
             ],
         ];
     }
+
 }

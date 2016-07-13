@@ -9,12 +9,11 @@ use tests\codeception\common\fixtures\UserFixture;
 use common\models\User;
 use Codeception\Specify;
 
-class PasswordResetRequestFormTest extends DbTestCase
-{
+class PasswordResetRequestFormTest extends DbTestCase {
+
     use Specify;
 
-    protected function setUp()
-    {
+    protected function setUp() {
         parent::setUp();
 
         Yii::$app->mailer->fileTransportCallback = function ($mailer, $message) {
@@ -22,22 +21,19 @@ class PasswordResetRequestFormTest extends DbTestCase
         };
     }
 
-    protected function tearDown()
-    {
+    protected function tearDown() {
         @unlink($this->getMessageFile());
 
         parent::tearDown();
     }
 
-    public function testSendEmailWrongUser()
-    {
+    public function testSendEmailWrongUser() {
         $this->specify('no user with such email, message should not be sent', function () {
 
             $model = new PasswordResetRequestForm();
             $model->email = 'not-existing-email@example.com';
 
             expect('email not sent', $model->sendEmail())->false();
-
         });
 
         $this->specify('user is not active, message should not be sent', function () {
@@ -46,12 +42,10 @@ class PasswordResetRequestFormTest extends DbTestCase
             $model->email = $this->user[1]['email'];
 
             expect('email not sent', $model->sendEmail())->false();
-
         });
     }
 
-    public function testSendEmailCorrectUser()
-    {
+    public function testSendEmailCorrectUser() {
         $model = new PasswordResetRequestForm();
         $model->email = $this->user[0]['email'];
         $user = User::findOne(['password_reset_token' => $this->user[0]['password_reset_token']]);
@@ -66,12 +60,10 @@ class PasswordResetRequestFormTest extends DbTestCase
             $message = file_get_contents($this->getMessageFile());
             expect('message "from" is correct', $message)->contains(Yii::$app->params['supportEmail']);
             expect('message "to" is correct', $message)->contains($model->email);
-
         });
     }
 
-    public function fixtures()
-    {
+    public function fixtures() {
         return [
             'user' => [
                 'class' => UserFixture::className(),
@@ -80,8 +72,8 @@ class PasswordResetRequestFormTest extends DbTestCase
         ];
     }
 
-    private function getMessageFile()
-    {
+    private function getMessageFile() {
         return Yii::getAlias(Yii::$app->mailer->fileTransportPath) . '/testing_message.eml';
     }
+
 }

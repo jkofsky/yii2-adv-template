@@ -8,7 +8,8 @@ use yii\codeception\BasePage;
  * Represents about page
  * @property \tests\codeception\frontend\AcceptanceTester|\tests\codeception\frontend\FunctionalTester $actor
  */
-class AboutPage extends BasePage
-{
+class AboutPage extends BasePage {
+
     public $route = 'site/about';
+
 }
