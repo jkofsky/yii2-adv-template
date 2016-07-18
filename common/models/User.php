@@ -26,6 +26,7 @@ use yii\helpers\Security;
  * @property integer $created_by
  * @property integer $updated_at
  * @property integer $updated_by
+ * @property integer $last_logon
  * @property string $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface {
@@ -80,17 +81,18 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function attributeLabels() {
         return [
- 'id' => \Yii::t('app', 'ID'),
- 'username' =>  \Yii::t('app', 'User Name'),
- 'password_reset_token'=>  \Yii::t('app', 'Password Reset Token'),
- 'email'=>  \Yii::t('app', 'Email'),
- 'role_id' => \Yii::t('app', 'Role'),
- 'status_id'=>  \Yii::t('app', 'Status'),
- 'user_type_id'=>  \Yii::t('app', 'User Type'),
- 'created_at' =>  \Yii::t('app', 'Created'),
-            'created_by'=>  \Yii::t('app', 'Created By'),
-'updated_at'=>  \Yii::t('app', 'Last Updated'),
-            'updated_by'=>  \Yii::t('app', 'Updated By'),
+            'id' => \Yii::t('app', 'ID'),
+            'username' => \Yii::t('app', 'User Name'),
+            'password_reset_token' => \Yii::t('app', 'Password Reset Token'),
+            'email' => \Yii::t('app', 'Email'),
+            'role_id' => \Yii::t('app', 'Role'),
+            'status_id' => \Yii::t('app', 'Status'),
+            'user_type_id' => \Yii::t('app', 'User Type'),
+            'created_at' => \Yii::t('app', 'Created'),
+            'created_by' => \Yii::t('app', 'Created By'),
+            'updated_at' => \Yii::t('app', 'Last Updated'),
+            'updated_by' => \Yii::t('app', 'Updated By'),
+            'last_logon' => \Yii::t('app', 'Last Logon'),
         ];
     }
 
@@ -210,6 +212,15 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function removePasswordResetToken() {
         $this->password_reset_token = null;
+    }
+
+    /**
+     *  Link to Profile Model
+     * 
+     * @return mixed
+     */
+    public function getProfile() {
+        return $this->hasOne(Profile::className(), ['user_id' => 'id']);
     }
 
 }
