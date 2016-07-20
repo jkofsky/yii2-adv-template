@@ -11,7 +11,18 @@ use yii;
 class RecordHelpers {
 
     /**
+     * Checks whether or not the user has a record in the given Model
      * 
+     * <pre><code>
+     * <?php
+     * If ($already_exists = RecordHelpers::userHas('profile') {
+     *    // show profile with id with value of $already_exists
+     * } else {
+     *    // go to form to create profile
+     * }
+     * ?>
+     * </code></pre>
+     *
      * @param string $model_name
      * @return int|boolean
      */

@@ -37,7 +37,7 @@ class Gender extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id' => Yii::t('app', 'ID'),
-            'gender_name' => Yii::t('app', 'Gender Name'),
+            'gender_name' => Yii::t('app', 'Gender'),
         ];
     }
 

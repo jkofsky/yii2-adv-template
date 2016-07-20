@@ -81,8 +81,19 @@ class Profile extends \yii\db\ActiveRecord {
             'profileIdLink' => Yii::t('app', 'Profile'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_by' => Yii::t('app', 'Updated By'),
-            'updated_at' => Yii::t('app', 'Updated At'),
+            'updated_at' => Yii::t('app', 'Last Updated'),
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeValidate() {
+        if ($this->birthdate != null) {
+            $new_date_format = strtotime($this->birthdate);
+            $this->birthdate = $new_date_format;
+        }
+        return parent::beforeValidate();
     }
 
     /**

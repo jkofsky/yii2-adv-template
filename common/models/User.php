@@ -66,7 +66,7 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function rules() {
         return [
-            [['status_id'], 'default', 'value' => self::STATUS_ACTIVE],
+            [['status_id'], 'default', 'value' => ValueHelpers::getStatusId('Active')],
             [['status_id'], 'in', 'range' => array_keys($this->getStatusList())],
             [['role_id'], 'default', 'value' => 1],
             [['role_id'], 'in', 'range' => array_keys($this->getRoleList())],
