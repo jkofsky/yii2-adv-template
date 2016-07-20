@@ -11,6 +11,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Security;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use common\helpers\ValueHelpers;
 use common\models\Profile;
 use backend\models\Role;
 use backend\models\Status;
@@ -36,9 +37,6 @@ use backend\models\UserType;
  * @property string $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface {
-
-    const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 1;
 
     /**
      * @inheritdoc
@@ -118,7 +116,7 @@ class User extends ActiveRecord implements IdentityInterface {
      * @inheritdoc
      */
     public static function findIdentity($id) {
-        return static::findOne(['id' => $id, 'status_id' => self::STATUS_ACTIVE]);
+        return static::findOne(['id' => $id, 'status_id' => ValueHelpers::getStatusId('Active')]);
     }
 
     /**
@@ -135,7 +133,7 @@ class User extends ActiveRecord implements IdentityInterface {
      * @return static|null
      */
     public static function findByUsername($username) {
-        return static::findOne(['username' => $username, 'status_id' => self::STATUS_ACTIVE]);
+        return static::findOne(['username' => $username, 'status_id' => ValueHelpers::getStatusId('Active')]);
     }
 
     /**
@@ -151,7 +149,7 @@ class User extends ActiveRecord implements IdentityInterface {
 
         return static::findOne([
                     'password_reset_token' => $token,
-                    'status_id' => self::STATUS_ACTIVE,
+                    'status_id' => ValueHelpers::getStatusId('Active'),
         ]);
     }
 
