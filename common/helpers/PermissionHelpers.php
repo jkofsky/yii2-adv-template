@@ -29,7 +29,7 @@ class PermissionHelpers {
     /**
      * 
      * @param string $status_name
-     * @return mixed
+     * @return boolean
      */
     public static function requireStatus($status_name) {
 

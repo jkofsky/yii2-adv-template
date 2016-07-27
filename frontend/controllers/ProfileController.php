@@ -26,9 +26,19 @@ class ProfileController extends Controller {
                 'only' => ['index', 'view', 'create', 'update', 'delete'],
                 'rules' => [
                     [
+                        'actions' => ['create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+                'rules' => [
+                    [
                         'actions' => ['index', 'view', 'create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                    return PermissionHelpers::requireStatus('Active');
+                }
                     ],
                 ],
             ],
@@ -46,7 +56,7 @@ class ProfileController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        if ($already_exists = RecordHelpers::userHas('{{%profile}}')) {
+        if ($already_exists = RecordHelpers::userHas('profile')) {
             return $this->render('view', [
                         'model' => $this->findModel($already_exists),
             ]);
@@ -60,7 +70,7 @@ class ProfileController extends Controller {
      * @return mixed
      */
     public function actionView() {
-        if ($already_exists = RecordHelpers::userHas('{{%profile}}')) {
+        if ($already_exists = RecordHelpers::userHas('profile')) {
             return $this->render('view', [
                         'model' => $this->findModel($already_exists),
             ]);
@@ -78,7 +88,7 @@ class ProfileController extends Controller {
         $model = new Profile;
         $model->user_id = \Yii::$app->user->identity->id;
 
-        if ($already_exists = RecordHelpers::userHas('{{%profile}}')) {
+        if ($already_exists = RecordHelpers::userHas('profile')) {
             return $this->render('view', [
                         'model' => $this->findModel($already_exists),
             ]);
@@ -95,9 +105,10 @@ class ProfileController extends Controller {
      * Updates an existing Profile model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionUpdate() {
-
+        PermissionHelpers::requireUpgradeTo('Paid');
         if ($model = Profile::find()->where(['user_id' => Yii::$app->user->identity->id])->one()) {
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
