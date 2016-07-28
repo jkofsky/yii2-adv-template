@@ -4,7 +4,7 @@ use \yii\bootstrap\Modal;
 use \yii\bootstrap\Collapse;
 use \yii\bootstrap\Alert;
 use yii\helpers\Html;
-use kartik\social\FacebookPlugin;
+use kartik\social\TwitterPlugin;
 
 /* @var $this yii\web\View */
 
@@ -35,6 +35,21 @@ $this->title = 'My Yii2 Template';
 
         'items' => [
             [
+                'label' => 'Tweeter Feed',
+                'content' => TwitterPlugin::widget([
+                    'type' => TwitterPlugin::TIMELINE,
+                    'screenName' => 'catcountry987',
+                    'settings' => [
+                        'widget-id' => '293376767144632320',
+                        'size' => 'large'
+                    ],
+                    //'options' => [ 'width' => '100%']
+                ]),
+                // open its content by default
+                'contentOptions' => ['class' => 'in']
+            ],
+            // another group item
+            [
                 'label' => 'Top Features',
                 'content' => 'FacebookPlugin::widget([1]',
 //                    'label' => 'Top Features',
@@ -42,20 +57,6 @@ $this->title = 'My Yii2 Template';
 //                        'type' => FacebookPlugin::SHARE,
 //                        'settings' => ['href' => 'http://www.yii2build.com', 'width' => '350']
 //                    ]),
-                // open its content by default
-                'contentOptions' => ['class' => 'in']
-            ],
-            // another group item
-            [
-                'label' => 'Top Resources',
-                'content' => 'FacebookPlugin::widget([2]'
-//                    'label' => 'Top Resources',
-//                    'content' => FacebookPlugin::widget([
-//                        'type' => FacebookPlugin::SHARE,
-//                        'settings' => ['href' => 'http://www.yii2build.com', 'width' => '350']
-//                    ]),
-            // 'contentOptions' => [],
-            // 'options' => [],
             ],
         ]
     ]);
