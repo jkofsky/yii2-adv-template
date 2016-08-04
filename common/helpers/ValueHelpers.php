@@ -24,7 +24,7 @@ class ValueHelpers {
 
         $userHasRoleName = Yii::$app->user->identity->role->role_name;
 
-        return $userHasRoleName == $role_name ? true : false;
+        return (strcasecmp($role_name, $userHasRoleName) == 0);
     }
 
     /**

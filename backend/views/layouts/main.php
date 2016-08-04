@@ -8,6 +8,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
+use common\helpers\PermissionHelpers;
 
 AppAsset::register($this);
 ?>
@@ -26,16 +27,42 @@ AppAsset::register($this);
 
         <div class="wrap">
             <?php
-            NavBar::begin([
-                'brandLabel' => 'My Company',
-                'brandUrl' => Yii::$app->homeUrl,
-                'options' => [
-                    'class' => 'navbar-inverse navbar-fixed-top',
-                ],
-            ]);
+            if (!Yii::$app->user->isGuest) {
+
+                $is_admin = PermissionHelpers::requireMinimumRole('Admin');
+
+                NavBar::begin([
+
+                    'brandLabel' => 'My Company &ndash; Admin',
+                    'brandUrl' => Yii::$app->homeUrl,
+                    'options' => [
+                        'class' => 'navbar-inverse navbar-fixed-top',
+                    ],
+                ]);
+            } else {
+
+                NavBar::begin([
+
+                    'brandLabel' => 'My Company',
+                    'brandUrl' => Yii::$app->homeUrl,
+                    'options' => [
+                        'class' => 'navbar-inverse navbar-fixed-top',
+                    ],
+                ]);
+            }
+
             $menuItems = [
                 ['label' => 'Home', 'url' => ['/site/index']],
             ];
+
+            if (!Yii::$app->user->isGuest && $is_admin) {
+                $menuItems[] = ['label' => 'Users', 'url' => ['user/index']];
+                $menuItems[] = ['label' => 'Profiles', 'url' => ['profile/index']];
+                $menuItems[] = ['label' => 'Roles', 'url' => ['role/index']];
+                $menuItems[] = ['label' => 'User Types', 'url' => ['user-type/index']];
+                $menuItems[] = ['label' => 'Statuses', 'url' => ['status/index']];
+            }
+
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
             } else {
