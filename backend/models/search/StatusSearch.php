@@ -10,12 +10,13 @@ use backend\models\Status;
 /**
  * StatusSearch represents the model behind the search form about `backend\models\Status`.
  */
-class StatusSearch extends Status {
-
+class StatusSearch extends Status
+{
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             [['id', 'status_value'], 'integer'],
             [['status_name'], 'safe'],
@@ -25,7 +26,8 @@ class StatusSearch extends Status {
     /**
      * @inheritdoc
      */
-    public function scenarios() {
+    public function scenarios()
+    {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -37,7 +39,8 @@ class StatusSearch extends Status {
      *
      * @return ActiveDataProvider
      */
-    public function search($params) {
+    public function search($params)
+    {
         $query = Status::find();
 
         // add conditions that should always apply here
@@ -64,5 +67,4 @@ class StatusSearch extends Status {
 
         return $dataProvider;
     }
-
 }

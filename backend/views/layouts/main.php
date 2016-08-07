@@ -61,6 +61,7 @@ AppAsset::register($this);
                 $menuItems[] = ['label' => 'Roles', 'url' => ['role/index']];
                 $menuItems[] = ['label' => 'User Types', 'url' => ['user-type/index']];
                 $menuItems[] = ['label' => 'Statuses', 'url' => ['status/index']];
+                $menuItems[] = ['label' => 'Status Messages', 'url' => ['status-message/index']];
             }
 
             if (Yii::$app->user->isGuest) {
