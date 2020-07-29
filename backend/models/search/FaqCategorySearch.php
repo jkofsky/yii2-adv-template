@@ -5,20 +5,20 @@ namespace backend\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Status;
+use backend\models\FaqCategory;
 
 /**
- * StatusSearch represents the model behind the search form about `backend\models\Status`.
+ * FaqCategorySearch represents the model behind the search form about `backend\models\FaqCategory`.
  */
-class StatusSearch extends Status {
+class FaqCategorySearch extends FaqCategory {
 
     /**
      * @inheritdoc
      */
     public function rules() {
         return [
-            [['id', 'status_value'], 'integer'],
-            [['status_name'], 'safe'],
+            [['id', 'faq_category_weight', 'faq_category_is_featured'], 'integer'],
+            [['faq_category_name'], 'safe'],
         ];
     }
 
@@ -38,7 +38,7 @@ class StatusSearch extends Status {
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = Status::find();
+        $query = FaqCategory::find();
 
         // add conditions that should always apply here
 
@@ -57,10 +57,11 @@ class StatusSearch extends Status {
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'status_value' => $this->status_value,
+            'faq_category_weight' => $this->faq_category_weight,
+            'faq_category_is_featured' => $this->faq_category_is_featured,
         ]);
 
-        $query->andFilterWhere(['like', 'status_name', $this->status_name]);
+        $query->andFilterWhere(['like', 'faq_category_name', $this->faq_category_name]);
 
         return $dataProvider;
     }

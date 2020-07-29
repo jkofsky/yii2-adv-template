@@ -30,7 +30,7 @@ class StatusMessageController extends Controller {
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                    return PermissionHelpers::requireMinimumRole('Admin') && 
+                    return PermissionHelpers::requireMinimumRole('Admin') &&
                             PermissionHelpers::requireStatus('Active');
                 }
                     ],
@@ -39,7 +39,7 @@ class StatusMessageController extends Controller {
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                    return PermissionHelpers::requireMinimumRole('SuperUser') && 
+                    return PermissionHelpers::requireMinimumRole('SuperUser') &&
                             PermissionHelpers::requireStatus('Active');
                 }
                     ],

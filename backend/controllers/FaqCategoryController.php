@@ -3,43 +3,33 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Profile;
-use backend\models\search\ProfileSearch;
+use backend\models\FaqCategory;
+use backend\models\search\FaqCategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\helpers\PermissionHelpers;
 
 /**
- * ProfileController implements the CRUD actions for Profile model.
+ * FaqCategoryController implements the CRUD actions for FaqCategory model.
  */
-class ProfileController extends Controller {
+class FaqCategoryController extends Controller {
 
     /**
      * @inheritdoc
      */
     public function behaviors() {
         return [
-
             'access' => [
                 'class' => \yii\filters\AccessControl::className(),
                 'only' => ['index', 'view', 'create', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'view',],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
                     return PermissionHelpers::requireMinimumRole('Admin') &&
-                            PermissionHelpers::requireStatus('Active');
-                }
-                    ],
-                    [
-                        'actions' => [ 'update', 'delete'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
-                    return PermissionHelpers::requireMinimumRole('SuperUser') &&
                             PermissionHelpers::requireStatus('Active');
                 }
                     ],
@@ -55,11 +45,11 @@ class ProfileController extends Controller {
     }
 
     /**
-     * Lists all Profile models.
+     * Lists all FaqCategory models.
      * @return mixed
      */
     public function actionIndex() {
-        $searchModel = new ProfileSearch();
+        $searchModel = new FaqCategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -69,8 +59,8 @@ class ProfileController extends Controller {
     }
 
     /**
-     * Displays a single Profile model.
-     * @param string $id
+     * Displays a single FaqCategory model.
+     * @param integer $id
      * @return mixed
      */
     public function actionView($id) {
@@ -80,12 +70,12 @@ class ProfileController extends Controller {
     }
 
     /**
-     * Creates a new Profile model.
+     * Creates a new FaqCategory model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate() {
-        $model = new Profile();
+        $model = new FaqCategory();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -97,9 +87,9 @@ class ProfileController extends Controller {
     }
 
     /**
-     * Updates an existing Profile model.
+     * Updates an existing FaqCategory model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $id
+     * @param integer $id
      * @return mixed
      */
     public function actionUpdate($id) {
@@ -115,9 +105,9 @@ class ProfileController extends Controller {
     }
 
     /**
-     * Deletes an existing Profile model.
+     * Deletes an existing FaqCategory model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $id
+     * @param integer $id
      * @return mixed
      */
     public function actionDelete($id) {
@@ -127,14 +117,14 @@ class ProfileController extends Controller {
     }
 
     /**
-     * Finds the Profile model based on its primary key value.
+     * Finds the FaqCategory model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $id
-     * @return Profile the loaded model
+     * @param integer $id
+     * @return FaqCategory the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = Profile::findOne($id)) !== null) {
+        if (($model = FaqCategory::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
